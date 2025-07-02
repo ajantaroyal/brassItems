@@ -1,5 +1,10 @@
 [
   {
+    "name": "Buddha",
+    "folder": "Buddha",
+    "thumb": "https://raw.githubusercontent.com/ajantaroyal/brassItems/main/Buddha/001.jpg"
+  },
+  {
     "name": "Durga Maa",
     "folder": "Durga Maa",
     "thumb": "https://raw.githubusercontent.com/ajantaroyal/brassItems/main/Durga%20Maa/001.jpg"
