@@ -1,0 +1,46 @@
+name: Generate products.json
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write  # ✅ This allows pushing changes to the repo
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Generate products.json
+        run: |
+          echo "[" > products.json
+          for dir in */ ; do
+            folder="${dir%/}"
+            if [[ "$folder" != "assets" && "$folder" != ".github" ]]; then
+              img=$(ls "$folder" | grep -Ei '^0*1\.jpe?g$' | head -n1)
+              if [[ -n "$img" ]]; then
+                name=$(echo "$folder" | sed 's/-/ /g' | sed 's/\b\(.\)/\u\1/g')
+                thumb="https://raw.githubusercontent.com/${{ github.repository }}/main/$(echo "$folder/$img" | sed 's/ /%20/g')"
+                echo "  {" >> products.json
+                echo "    \"name\": \"$name\"," >> products.json
+                echo "    \"folder\": \"$folder\"," >> products.json
+                echo "    \"thumb\": \"$thumb\"" >> products.json
+                echo "  }," >> products.json
+              fi
+            fi
+          done
+          sed -i '$ s/},/}/' products.json
+          echo "]" >> products.json
+
+      - name: Commit and Push products.json
+        run: |
+          git config user.name "ajantaroyal-bot"
+          git config user.email "bot@ajantaroyal.com"
+          git add products.json
+          git diff --cached --quiet || git commit -m "Auto-update products.json"
+          git push
