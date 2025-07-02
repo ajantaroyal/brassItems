@@ -77,11 +77,11 @@
   const product = queryParams.get("product");
 
   if (product) {
-    const folder = decodeURIComponent(product);
-    const images = Array.from({ length: 36 }, (_, i) => {
-      const num = String(i + 1).padStart(3, '0');
-      return `https://raw.githubusercontent.com/ajantaroyal/360-Spin/main/${folder}/${num}.jpg`;
-    });
+  const folder = decodeURIComponent(product);
+  const images = Array.from({ length: 36 }, (_, i) => {
+    const num = String(i + 1).padStart(3, '0');
+    return `https://raw.githubusercontent.com/ajantaroyal/brassItems/main/${folder}/${num}.jpg`;
+  });
 
     const firstImg = new Image();
     firstImg.src = images[0];
