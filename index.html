@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Ajanta Royal Brass Items</title>
+  <title>Ajanta Royal Brass Products</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/spritespin@4.0.11/release/spritespin.css" rel="stylesheet">
   <style>
@@ -57,9 +57,22 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
       background: #fff;
       margin: 0 auto;
+      padding-top: 10rem;
+      padding-bottom: 4rem;
+    }
+
+    .spinner-inner {
+      display: block;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 768px) {
+      #spinner {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
     }
   </style>
 </head>
@@ -67,7 +80,7 @@
 
 <h1>360° Product Spins</h1>
 <div id="spin-list" class="grid"><div>Loading...</div></div>
-<div id="spinner"></div>
+<div id="spinner"><div class="spinner-inner"></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/spritespin@4.0.11/release/spritespin.js"></script>
@@ -77,11 +90,11 @@
   const product = queryParams.get("product");
 
   if (product) {
-  const folder = decodeURIComponent(product);
-  const images = Array.from({ length: 36 }, (_, i) => {
-    const num = String(i + 1).padStart(3, '0');
-    return `https://raw.githubusercontent.com/ajantaroyal/brassItems/main/${folder}/${num}.jpg`;
-  });
+    const folder = decodeURIComponent(product);
+    const images = Array.from({ length: 36 }, (_, i) => {
+      const num = String(i + 1).padStart(3, '0');
+      return `https://raw.githubusercontent.com/ajantaroyal/brassItems/main/${folder}/${num}.jpg`;
+    });
 
     const firstImg = new Image();
     firstImg.src = images[0];
@@ -96,20 +109,18 @@
 
       let width, height;
       if (screenW >= 768) {
-        // Desktop: fit height
         height = screenH;
         width = Math.round(height * aspect);
       } else {
-        // Mobile: fit width
         width = screenW;
         height = Math.round(width / aspect);
       }
 
-      const spinnerDiv = document.getElementById("spinner");
-      spinnerDiv.style.width = width + "px";
-      spinnerDiv.style.height = height + "px";
+      const spinnerInner = document.querySelector(".spinner-inner");
+      spinnerInner.style.width = width + "px";
+      spinnerInner.style.height = height + "px";
 
-      $('#spinner').spritespin({
+      $('.spinner-inner').spritespin({
         source: images,
         width: width,
         height: height,
